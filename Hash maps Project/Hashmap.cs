@@ -82,59 +82,6 @@ namespace HashMapLesson
         {
             return FindNode(key) != null;
         }
-        // Removes a key. Returns true when a node was removed.
-        public bool Remove(string key)
-        {
-            int index = Hash(key);
-            Node previous = null;
-            Node temp = dataMap[index];
-            while (temp != null)
-            {
-                if (temp.Key.Equals(key))
-                {
-                    if (previous == null)
-                        dataMap[index] = temp.Next; // removing the first node the bucket
-                    else
-                        previous.Next = temp.Next; // skip over the removed node
-                    return true;
-                }
-                previous = temp;
-                temp = temp.Next;
-            }
-            return false;
-        }
-        // Collects every key by visiting every bucket and every node in each chain
-        public List<string> Keys()
-        {
-            var allKeys = new List<string>();
-            for (int i = 0; i < dataMap.Length; i++)
-            {
-                Node temp = dataMap[i];
-                while (temp != null)
-                {
-                    allKeys.Add(temp.Key);
-                    temp = temp.Next;
-                }
-            }
-            return allKeys;
-        }
-        // Prints each bucket and the chain inside it
-        public void PrintTable()
-        {
-            for (int i = 0; i < dataMap.Length; i++)
-            {
-                Console.Write(i + ": ");
-                Node temp = dataMap[i];
-                if (temp == null)
-                    Console.Write("null");
-                while (temp != null)
-                {
-                    Console.Write("[" + temp.Key + " = " + temp.Value + "] ");
-                    temp = temp.Next;
-                }
-                Console.WriteLine();
-            }
-        }
         //Try get method 10 points
         public bool TryGet(string key, out int value)
         {
@@ -155,7 +102,7 @@ namespace HashMapLesson
         {
             Dictionary<string, int> counts = new Dictionary<string, int>();
 
-            string[] words = text.ToLower().Split(' ', ',', '.');
+            string[] words = text.ToLower().Split(' ');
             // everythin to lowercase and we separate each word if thre is a space comma or dot , and we saved them in our array list
 
             foreach (string word in words)
@@ -175,7 +122,7 @@ namespace HashMapLesson
             int mostCommon = 0;
             foreach (var word in counts)
             {
-                if (word.Value != null)
+                if (word.Value> mostCommon)
                 {
                     mostCommon = word.Value;
                     word1 = word.Key;
